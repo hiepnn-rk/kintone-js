@@ -1,0 +1,32 @@
+name: Test Build Package
+
+on:
+  push:
+    branches:
+      - '!main'
+      - 'hotfix/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        id: pnpm-install
+        with:
+          version: 9
+          run_install: false
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+          
+      - uses: actions/cache@v4
+        name: Setup pnpm cache
+
+      - name: Build
+        run: pnpm run build
